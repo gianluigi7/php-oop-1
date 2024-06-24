@@ -12,11 +12,17 @@ class Movie
 
   public function __construct(string $nomeFilm, string $nomeRegista) {
       $this->nome = $nomeFilm;
-      $this->nomeRegista = $nomeFilm;
+      $this->nomeRegista = $nomeRegista;
     }
 
    public function setUscita(int $data) {
-    $this-> uscita = $data;
+       try {
+       $this-> uscita = $data;
+
+   }
+       catch (Exception $error){
+            echo $error;
+        }
    }
    public function setLingua(string $data) {
     $this-> linguaOriginale = $data;
@@ -33,7 +39,7 @@ class Movie
 };
 
 $fightClub = new Movie('Fight Club', 'David Fincher');
-$fightClub-> setUscita(1999);
+$fightClub-> setUscita('no');
 $fightClub-> setLingua('EN');
 $fightClub-> setGenere('drammatico', 'thriller', 'psicologico');
 var_dump($fightClub);
