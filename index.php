@@ -9,7 +9,10 @@ class Movie
   public string $linguaOriginale;
   public int $uscita;
   public array $genere;
-  public $genre;
+  public ?Genre $genre = null;
+  public ?Actors $actors = null;
+  public int $id;
+  public static int $lastId = 1;
 
   
   
@@ -29,10 +32,17 @@ class Movie
 //   public function getGenere(): array {
 //      return $this->genere;
 //   }
+//   public function getGenre(): ?Genre {
+//      return $this->genere;
+//   }
+//   public function getActors(): ?Actors {
+//      return $this->genere;
+//   }
 
   public function __construct(string $nomeFilm, string $nomeRegista) {
       $this->nome = $nomeFilm;
       $this->nomeRegista = $nomeRegista;
+      $this->id = self::$lastId++;
     }
 
    public function setUscita(int $data) 
@@ -53,6 +63,9 @@ class Movie
    public function setGenre(Genre $data) : void {
     $this->genre = $data;
    }
+   public function setActor(Actors $data) : void {
+    $this->actors = $data;
+   }
 
 };
 class Genre {
@@ -68,6 +81,17 @@ class Genre {
     }
 
 };
+class Actors {
+  public string $act1;
+  public string $act2;
+  public string $act3;
+
+  public function __construct($act1, $act2) {
+    $this-> act1 =$act1;
+    $this-> act2 =$act2;
+  }
+};
+$fc_act = new Actors("Brad Pitt", "Gigi D'alessio");
 $fc_genre = new Genre('drammatico', 'thriller', 'psicologico');
 $list = [$fightClub, $ladri];
 
@@ -76,6 +100,7 @@ try {
     $fightClub-> setUscita(1999);
     $fightClub-> setLingua('EN');
     $fightClub-> setGenre($fc_genre);
+    $fightClub-> setActor($fc_act);
     //$fightClub-> setMultiGenere('drammatico', 'thriller', 'psicologico');
     $ladri = new Movie('Ladri di biciclette', 'Vittorio De Sica');
     $ladri-> setMultiGenere('drammatico');
@@ -85,6 +110,7 @@ try {
 } catch (Exception $e) {
   echo $e;
 }
+$nullSafe = $fightClub ->genre?->gen1 ?? 'Generi non trovati';
 var_dump($fightClub);
 
 var_dump($ladri);
@@ -105,7 +131,8 @@ var_dump($ladri);
                 <p> regia di:<?php  echo $fightClub -> nomeRegista ?> </p>
                 <p> lingua origianle:<?php  echo $fightClub -> linguaOriginale ?> </p>
                 <p> <?php  echo $fightClub -> uscita ?> </p>
-                <p> genere: <?php  echo $fightClub -> genre -> gen1 ?>, <?php  echo $fightClub -> genre -> gen2 ?>, <?php  echo $fightClub -> genre -> gen3 ?>.</p>
+                <p> genere: <?php  echo $nullSafe ?> <?php  echo $fightClub -> genre -> gen2 ?> <?php  echo $fightClub -> genre -> gen3 ?></p>
+                <p> attori: <?php  echo $fightClub -> actors -> act1 ?>, <?php  echo $fightClub -> actors -> act2 ?>.</p>
                  
             </div>
         </li>
